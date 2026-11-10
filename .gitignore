@@ -1,0 +1,33 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments and local configuration
+venv/
+.venv/
+env/
+.env
+.env.*
+!.env.example
+instance/
+
+# Generated databases and backups
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db-*
+*.bak
+*.backup
+*.dump
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

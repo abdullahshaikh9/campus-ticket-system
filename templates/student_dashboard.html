@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+{% block header_title %}Student Dashboard{% endblock %}
+{% block content %}
+
+  <div class="card">
+    <h3>Submit a New Request</h3>
+    <form method="POST" action="/submit_ticket">
+      <div class="form-group">
+        <label>Issue Title</label>
+        <input type="text" name="title" placeholder="Briefly describe the issue (e.g., Broken AC in Lab 2)" required>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select name="category">
+          <option value="IT">IT / Network</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Plumbing">Plumbing</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Submit Request</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>My Request History</h3>
+    {% if tickets %}
+      <table>
+        <thead>
+          <tr>
+            <th>Ticket Details</th>
+            <th>Category</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in tickets %}
+            <tr>
+              <td>
+                <strong>{{ t['title'] }}</strong><br>
+                <span style="font-size: 12px; color: #64748b;">Ticket #{{ t['ticket_id'] }}</span>
+              </td>
+              <td>{{ t['category'] }}</td>
+              <td>
+                {% if t['status'] == 'Pending' %}
+                  <span class="badge pending">Pending</span>
+                {% elif t['status'] == 'In Progress' %}
+                  <span class="badge progress">In Progress</span>
+                {% else %}
+                  <span class="badge resolved">Resolved</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p style="color: #64748b; font-size: 14px;">You haven't submitted any requests yet.</p>
+    {% endif %}
+  </div>
+
+{% endblock %}

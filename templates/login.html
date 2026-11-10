@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - CampusDesk</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --dark-bg: #0f172a;
+      --light-bg: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { display: flex; height: 100vh; background-color: var(--light-bg); }
+
+    /* Left Side - Branding */
+    .brand-panel {
+      flex: 1;
+      background-color: var(--dark-bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+    }
+    
+    /* Abstract background pattern */
+    .brand-panel::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
+      top: -100px; left: -100px;
+      border-radius: 50%;
+    }
+    .brand-panel::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(15, 23, 42, 0) 70%);
+      bottom: -50px; right: -50px;
+      border-radius: 50%;
+    }
+
+    .brand-content { position: relative; z-index: 1; max-width: 450px; }
+    .brand-content .logo {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 24px; font-weight: 700; margin-bottom: 30px; color: #fff;
+    }
+    .brand-content h1 { font-size: 36px; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+    .brand-content p { font-size: 16px; color: #94a3b8; line-height: 1.6; }
+
+    /* Right Side - Form */
+    .form-panel {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      padding: 40px;
+    }
+    .form-container { width: 100%; max-width: 380px; }
+    
+    .form-container h2 { font-size: 26px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+    .form-container > p { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
+
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #334155; }
+    input {
+      width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; 
+      font-size: 14px; transition: all 0.2s; background: #f8fafc;
+    }
+    input:focus { outline: none; border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+
+    button {
+      width: 100%; padding: 14px; background: var(--primary); color: #fff; 
+      border: none; border-radius: 8px; font-size: 15px; font-weight: 600; 
+      cursor: pointer; transition: all 0.2s; margin-top: 10px;
+    }
+    button:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
+
+    .error-alert {
+      background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;
+      padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 500;
+      margin-bottom: 24px; text-align: center;
+    }
+
+    .demo-box {
+      margin-top: 30px; background: #f8fafc; border: 1px solid #e2e8f0;
+      padding: 16px; border-radius: 8px; font-size: 13px; color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .brand-panel { display: none; }
+      .form-panel { background: var(--dark-bg); }
+      .form-container { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Left Side Branding -->
+  <div class="brand-panel">
+    <div class="brand-content">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        CampusDesk
+      </div>
+      <h1>Streamline your campus maintenance.</h1>
+      <p>A centralized platform for students to report issues and for administration to track and resolve them efficiently.</p>
+    </div>
+  </div>
+
+  <!-- Right Side Login Form -->
+  <div class="form-panel">
+    <div class="form-container">
+      <h2>Welcome back</h2>
+      <p>Please enter your details to sign in.</p>
+
+      {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+          <div class="error-alert">{{ msgs[0] }}</div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit">Sign In</button>
+      </form>
+
+      <div class="demo-box">
+        <strong>Test Credentials:</strong><br>
+        Student: <code>student1</code> / <code>pass123</code><br>
+        Admin: <code>admin</code> / <code>admin123</code>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
